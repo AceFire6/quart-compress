@@ -1,21 +1,25 @@
 import setuptools
 
+
+with open('README.md') as readme_file:
+    long_description = readme_file.read()
+
 setuptools.setup(
-    name='Quart-Compress',
-    version='1.3.1',
-    url='https://libwilliam.github.io/quart-compress/',
+    name='quart-compress',
+    version='0.1.0',
+    url='https://github.com/AceFire6/quart-compress',
     license='MIT',
-    author='William Fagan',
-    author_email='libwilliam@gmail.com',
+    author='Jethro Muller, William Fagan',
+    author_email='git@jethromuller.co.za, libwilliam@gmail.com',
     description='Compress responses in your Quart app with gzip or brotli.',
-    long_description='Full documentation can be found on the Quart-Compress "Home Page".',
+    long_description=long_description,
     py_modules=['quart_compress'],
     zip_safe=False,
     include_package_data=True,
     platforms='any',
     install_requires=[
-        'quart',
-        'brotli'
+        'Quart==0.10.0',
+        'Brotli==1.0.7'
     ],
     test_suite='tests',
     classifiers=[
@@ -23,14 +27,7 @@ setuptools.setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ]

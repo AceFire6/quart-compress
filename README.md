@@ -1,11 +1,11 @@
 # Quart-Compress
 
-[![Version](https://img.shields.io/pypi/v/quart-compress.svg)](https://pypi.python.org/pypi/Quart-Compress)
-[![Build Status](https://travis-ci.org/libwilliam/quart-compress.png)](https://travis-ci.org/libwilliam/quart-compress)
-[![Coverage](https://coveralls.io/repos/libwilliam/quart-compress/badge.svg)](https://coveralls.io/github/libwilliam/quart-compress)
-[![License](https://img.shields.io/pypi/l/quart-compress.svg)](https://github.com/libwilliam/quart-compress/blob/master/LICENSE.txt)
+[![Version](https://img.shields.io/pypi/v/quart-compress.svg)](https://pypi.python.org/pypi/quart-compress)
+[![Build Status](https://travis-ci.org/AceFire6/quart-compress.png)](https://travis-ci.org/AceFire6/quart-compress)
+[![Coverage](https://coveralls.io/repos/AceFire6/quart-compress/badge.svg)](https://coveralls.io/github/AceFire6/quart-compress)
+[![License](https://img.shields.io/pypi/l/quart-compress.svg)](https://github.com/AceFire6/quart-compress/blob/master/LICENSE.txt)
 
-Quart-Compress allows you to easily compress your [Quart](http://quart.pocoo.org/) application's responses with gzip.
+Quart-Compress allows you to easily compress your [Quart](https://pgjones.gitlab.io/quart/) application's responses with gzip.
 
 The preferred solution is to have a server (like [Nginx](http://wiki.nginx.org/Main)) automatically compress the static files for you. If you don't have that option Quart-Compress will solve the problem for you.
 
@@ -28,19 +28,12 @@ $ pip install quart-compress
 or, if you want the latest github version:
 
 ```shell
-$ pip install git+git://github.com/libwilliam/quart-compress.git
+$ pip install git+git://github.com/AceFire6/quart-compress.git
 ```
-
-You can also install Quart-Compress via Easy Install:
-
-```shell
-$ easy_install quart-compress
-```
-
 
 ## Using Quart-Compress
 
-Quart-Compress is incredibly simple to use. In order to start gzip'ing your Quart application's assets, the first thing to do is let Quart-Compress know about your [`quart.Quart`](http://quart.pocoo.org/docs/latest/api/#quart.Quart) application object.
+Quart-Compress is incredibly simple to use. In order to start gzip'ing your Quart application's assets, the first thing to do is let Quart-Compress know about your [`quart.Quart`](https://pgjones.gitlab.io/quart/source/quart.app.html#quart.app.Quart) application object.
 
 ```python
 from quart import Quart
@@ -64,7 +57,7 @@ def start_app():
     return app
 ```
 
-In terms of automatically compressing your assets using gzip, passing your [`quart.Quart`](http://quart.pocoo.org/docs/latest/api/#quart.Quart) object to the `quart_compress.Compress` object is all that needs to be done.
+In terms of automatically compressing your assets using gzip, passing your [`quart.Quart`](https://pgjones.gitlab.io/quart/source/quart.app.html#quart.app.Quart) object to the `quart_compress.Compress` object is all that needs to be done.
 
 
 ## Options
