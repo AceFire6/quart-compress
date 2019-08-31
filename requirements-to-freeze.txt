@@ -1,2 +1,4 @@
-quart
 brotli
+pytest
+pytest-asyncio
+quart

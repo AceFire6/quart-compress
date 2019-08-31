@@ -1,13 +1,13 @@
-import unittest
 import os
 
+import pytest
 from quart import Quart, render_template
 
 from quart_compress import Compress
 
 
-class DefaultsTest(unittest.TestCase):
-    def setUp(self):
+class TestDefaults:
+    def setup(self):
         self.app = Quart(__name__)
         self.app.testing = True
 
@@ -17,23 +17,23 @@ class DefaultsTest(unittest.TestCase):
         """ Tests COMPRESS_MIMETYPES default value is correctly set. """
         defaults = ['text/html', 'text/css', 'text/xml', 'application/json',
                     'application/javascript']
-        self.assertEqual(self.app.config['COMPRESS_MIMETYPES'], defaults)
+        assert self.app.config['COMPRESS_MIMETYPES'] == defaults
 
     def test_level_default(self):
         """ Tests COMPRESS_LEVEL default value is correctly set. """
-        self.assertEqual(self.app.config['COMPRESS_LEVEL'], 6)
+        assert self.app.config['COMPRESS_LEVEL'] == 6
 
     def test_min_size_default(self):
         """ Tests COMPRESS_MIN_SIZE default value is correctly set. """
-        self.assertEqual(self.app.config['COMPRESS_MIN_SIZE'], 500)
+        assert self.app.config['COMPRESS_MIN_SIZE'] == 500
 
     def test_algorithm_default(self):
         """ Tests COMPRESS_ALGORITHM default value is correctly set. """
-        self.assertEqual(self.app.config['COMPRESS_ALGORITHM'], 'gzip')
+        assert self.app.config['COMPRESS_ALGORITHM'] == 'gzip'
 
 
-class InitTests(unittest.TestCase):
-    def setUp(self):
+class TestInit:
+    def setup(self):
         self.app = Quart(__name__)
         self.app.testing = True
 
@@ -45,16 +45,14 @@ class InitTests(unittest.TestCase):
         compress.init_app(self.app)
 
 
-class UrlTests(unittest.TestCase):
-    def setUp(self):
+class TestUrls:
+    def setup(self):
         self.app = Quart(__name__)
         self.app.testing = True
 
-        small_path = os.path.join(os.getcwd(), 'tests', 'templates',
-                                  'small.html')
+        small_path = os.path.join(os.getcwd(), 'tests', 'templates', 'small.html')
 
-        large_path = os.path.join(os.getcwd(), 'tests', 'templates',
-                                  'large.html')
+        large_path = os.path.join(os.getcwd(), 'tests', 'templates', 'large.html')
 
         self.small_size = os.path.getsize(small_path) - 1
         self.large_size = os.path.getsize(large_path) - 1
@@ -69,53 +67,69 @@ class UrlTests(unittest.TestCase):
         def large():
             return render_template('large.html')
 
-    def client_get(self, ufs):
+    async def client_get(self, ufs):
         client = self.app.test_client()
-        response = client.get(ufs, headers=[('Accept-Encoding', 'gzip')])
-        self.assertEqual(response.status_code, 200)
+        response = await client.get(ufs, headers=[('Accept-Encoding', 'gzip')])
+
+        assert response.status_code == 200
+
         return response
 
-    def test_br_algorithm(self):
+    @pytest.mark.asyncio
+    async def test_br_algorithm(self):
         client = self.app.test_client()
         headers = [('Accept-Encoding', 'br')]
 
-        response = client.options('/small/', headers=headers)
-        self.assertEqual(response.status_code, 200)
+        response = await client.options('/small/', headers=headers)
+        assert response.status_code == 200
 
-        response = client.options('/large/', headers=headers)
-        self.assertEqual(response.status_code, 200)
+        response = await client.options('/large/', headers=headers)
+        assert response.status_code == 200
 
-    def test_compress_level(self):
+    @pytest.mark.asyncio
+    async def test_compress_level(self):
         """ Tests COMPRESS_LEVEL correctly affects response data. """
         self.app.config['COMPRESS_LEVEL'] = 1
-        response = self.client_get('/large/')
-        response1_size = len(response.data)
+
+        response = await self.client_get('/large/')
+        data = await response.get_data()
+
+        response1_size = len(data)
 
         self.app.config['COMPRESS_LEVEL'] = 6
-        response = self.client_get('/large/')
-        response6_size = len(response.data)
 
-        self.assertNotEqual(response1_size, response6_size)
+        response = await self.client_get('/large/')
+        data = await response.get_data()
 
-    def test_compress_min_size(self):
+        response6_size = len(data)
+
+        assert response1_size != response6_size
+
+    @pytest.mark.asyncio
+    async def test_compress_min_size(self):
         """ Tests COMPRESS_MIN_SIZE correctly affects response data. """
-        response = self.client_get('/small/')
-        self.assertEqual(self.small_size, len(response.data))
+        small_response = await self.client_get('/small/')
+        small_response_data = await small_response.get_data()
 
-        response = self.client_get('/large/')
-        self.assertNotEqual(self.large_size, len(response.data))
+        assert self.small_size == len(small_response_data)
 
-    def test_mimetype_mismatch(self):
+        large_response = await self.client_get('/large/')
+        large_response_data = await large_response.get_data()
+
+        assert self.large_size != len(large_response_data)
+
+    @pytest.mark.asyncio
+    async def test_mimetype_mismatch(self):
         """ Tests if mimetype not in COMPRESS_MIMETYPES. """
-        response = self.client_get('/static/1.png')
-        self.assertEqual(response.mimetype, 'image/png')
+        response = await self.client_get('/static/1.png')
 
-    def test_content_length_options(self):
+        assert response.mimetype == 'image/png'
+
+    @pytest.mark.asyncio
+    async def test_content_length_options(self):
         client = self.app.test_client()
+
         headers = [('Accept-Encoding', 'gzip')]
-        response = client.options('/small/', headers=headers)
-        self.assertEqual(response.status_code, 200)
+        response = await client.options('/small/', headers=headers)
 
-
-if __name__ == '__main__':
-    unittest.main()
+        assert response.status_code == 200
