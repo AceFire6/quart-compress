@@ -3,12 +3,10 @@ python:
   - "3.7"
 
 install:
-  - pip install .
-  - pip install nose-cov
+  - pip install -r requirements.txt
 
 script:
-  - nosetests --with-coverage --cover-package=quart_compress
+  - pytest --cov=quart_compress tests/
 
 after_success:
-  - pip install coveralls
   - coveralls
