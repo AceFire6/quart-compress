@@ -13,6 +13,7 @@ setuptools.setup(
     author_email="git@jethromuller.co.za, libwilliam@gmail.com",
     description="Compress responses in your Quart app with gzip or brotli.",
     long_description=long_description,
+    long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
     zip_safe=False,
     include_package_data=True,
