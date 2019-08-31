@@ -1,9 +1,7 @@
-
 # Authors: William Fagan
 # Copyright (c) 2013-2017 William Fagan
 # License: The MIT License (MIT)
 
-import sys
 from gzip import GzipFile
 from io import BytesIO
 
@@ -11,20 +9,7 @@ import brotli
 from quart import request, current_app
 
 
-if sys.version_info[:2] == (2, 6):
-    class GzipFile(GzipFile):
-        """ Backport of context manager support for python 2.6"""
-        def __enter__(self):
-            if self.fileobj is None:
-                raise ValueError("I/O operation on closed GzipFile object")
-            return self
-
-        def __exit__(self, *args):
-            self.close()
-
-
-class DictCache(object):
-
+class DictCache:
     def __init__(self):
         self.data = {}
 
@@ -35,7 +20,7 @@ class DictCache(object):
         self.data[key] = value
 
 
-class Compress(object):
+class Compress:
     """
     The Compress object allows your application to use Quart-Compress.
 

@@ -1,14 +1,14 @@
 import unittest
 import os
 
-from flask import Flask, render_template
+from quart import Quart, render_template
 
-from flask_compress import Compress
+from quart_compress import Compress
 
 
 class DefaultsTest(unittest.TestCase):
     def setUp(self):
-        self.app = Flask(__name__)
+        self.app = Quart(__name__)
         self.app.testing = True
 
         Compress(self.app)
@@ -34,7 +34,7 @@ class DefaultsTest(unittest.TestCase):
 
 class InitTests(unittest.TestCase):
     def setUp(self):
-        self.app = Flask(__name__)
+        self.app = Quart(__name__)
         self.app.testing = True
 
     def test_constructor_init(self):
@@ -47,7 +47,7 @@ class InitTests(unittest.TestCase):
 
 class UrlTests(unittest.TestCase):
     def setUp(self):
-        self.app = Flask(__name__)
+        self.app = Quart(__name__)
         self.app.testing = True
 
         small_path = os.path.join(os.getcwd(), 'tests', 'templates',
@@ -115,6 +115,7 @@ class UrlTests(unittest.TestCase):
         headers = [('Accept-Encoding', 'gzip')]
         response = client.options('/small/', headers=headers)
         self.assertEqual(response.status_code, 200)
+
 
 if __name__ == '__main__':
     unittest.main()

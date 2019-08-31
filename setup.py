@@ -1,20 +1,20 @@
 import setuptools
 
 setuptools.setup(
-    name='Flask-Compress',
+    name='Quart-Compress',
     version='1.3.1',
-    url='https://libwilliam.github.io/flask-compress/',
+    url='https://libwilliam.github.io/quart-compress/',
     license='MIT',
     author='William Fagan',
     author_email='libwilliam@gmail.com',
-    description='Compress responses in your Flask app with gzip or brotli.',
-    long_description='Full documentation can be found on the Flask-Compress "Home Page".',
-    py_modules=['flask_compress'],
+    description='Compress responses in your Quart app with gzip or brotli.',
+    long_description='Full documentation can be found on the Quart-Compress "Home Page".',
+    py_modules=['quart_compress'],
     zip_safe=False,
     include_package_data=True,
     platforms='any',
     install_requires=[
-        'flask',
+        'quart',
         'brotli'
     ],
     test_suite='tests',

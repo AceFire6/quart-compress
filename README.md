@@ -1,18 +1,18 @@
-# Flask-Compress
+# Quart-Compress
 
-[![Version](https://img.shields.io/pypi/v/flask-compress.svg)](https://pypi.python.org/pypi/Flask-Compress)
-[![Build Status](https://travis-ci.org/libwilliam/flask-compress.png)](https://travis-ci.org/libwilliam/flask-compress)
-[![Coverage](https://coveralls.io/repos/libwilliam/flask-compress/badge.svg)](https://coveralls.io/github/libwilliam/flask-compress)
-[![License](https://img.shields.io/pypi/l/flask-compress.svg)](https://github.com/libwilliam/flask-compress/blob/master/LICENSE.txt)
+[![Version](https://img.shields.io/pypi/v/quart-compress.svg)](https://pypi.python.org/pypi/Quart-Compress)
+[![Build Status](https://travis-ci.org/libwilliam/quart-compress.png)](https://travis-ci.org/libwilliam/quart-compress)
+[![Coverage](https://coveralls.io/repos/libwilliam/quart-compress/badge.svg)](https://coveralls.io/github/libwilliam/quart-compress)
+[![License](https://img.shields.io/pypi/l/quart-compress.svg)](https://github.com/libwilliam/quart-compress/blob/master/LICENSE.txt)
 
-Flask-Compress allows you to easily compress your [Flask](http://flask.pocoo.org/) application's responses with gzip.
+Quart-Compress allows you to easily compress your [Quart](http://quart.pocoo.org/) application's responses with gzip.
 
-The preferred solution is to have a server (like [Nginx](http://wiki.nginx.org/Main)) automatically compress the static files for you. If you don't have that option Flask-Compress will solve the problem for you.
+The preferred solution is to have a server (like [Nginx](http://wiki.nginx.org/Main)) automatically compress the static files for you. If you don't have that option Quart-Compress will solve the problem for you.
 
 
 ## How it works
 
-Flask-Compress both adds the various headers required for a compressed response and gzips the response data. This makes serving gzip compressed static files extremely easy.
+Quart-Compress both adds the various headers required for a compressed response and gzips the response data. This makes serving gzip compressed static files extremely easy.
 
 Internally, every time a request is made the extension will check if it matches one of the compressible MIME types and will automatically attach the appropriate headers.
 
@@ -22,54 +22,54 @@ Internally, every time a request is made the extension will check if it matches 
 If you use pip then installation is simply:
 
 ```shell
-$ pip install flask-compress
+$ pip install quart-compress
 ```
 
 or, if you want the latest github version:
 
 ```shell
-$ pip install git+git://github.com/libwilliam/flask-compress.git
+$ pip install git+git://github.com/libwilliam/quart-compress.git
 ```
 
-You can also install Flask-Compress via Easy Install:
+You can also install Quart-Compress via Easy Install:
 
 ```shell
-$ easy_install flask-compress
+$ easy_install quart-compress
 ```
 
 
-## Using Flask-Compress
+## Using Quart-Compress
 
-Flask-Compress is incredibly simple to use. In order to start gzip'ing your Flask application's assets, the first thing to do is let Flask-Compress know about your [`flask.Flask`](http://flask.pocoo.org/docs/latest/api/#flask.Flask) application object.
+Quart-Compress is incredibly simple to use. In order to start gzip'ing your Quart application's assets, the first thing to do is let Quart-Compress know about your [`quart.Quart`](http://quart.pocoo.org/docs/latest/api/#quart.Quart) application object.
 
 ```python
-from flask import Flask
-from flask_compress import Compress
+from quart import Quart
+from quart_compress import Compress
 
-app = Flask(__name__)
+app = Quart(__name__)
 Compress(app)
 ```
 
-In many cases, however, one cannot expect a Flask instance to be ready at import time, and a common pattern is to return a Flask instance from within a function only after other configuration details have been taken care of. In these cases, Flask-Compress provides a simple function, `flask_compress.Compress.init_app`, which takes your application as an argument.
+In many cases, however, one cannot expect a Quart instance to be ready at import time, and a common pattern is to return a Quart instance from within a function only after other configuration details have been taken care of. In these cases, Quart-Compress provides a simple function, `quart_compress.Compress.init_app`, which takes your application as an argument.
 
 ```python
-from flask import Flask
-from flask_compress import Compress
+from quart import Quart
+from quart_compress import Compress
 
 compress = Compress()
 
 def start_app():
-    app = Flask(__name__)
+    app = Quart(__name__)
     compress.init_app(app)
     return app
 ```
 
-In terms of automatically compressing your assets using gzip, passing your [`flask.Flask`](http://flask.pocoo.org/docs/latest/api/#flask.Flask) object to the `flask_compress.Compress` object is all that needs to be done.
+In terms of automatically compressing your assets using gzip, passing your [`quart.Quart`](http://quart.pocoo.org/docs/latest/api/#quart.Quart) object to the `quart_compress.Compress` object is all that needs to be done.
 
 
 ## Options
 
-Within your Flask application's settings you can provide the following settings to control the behavior of Flask-Compress. None of the settings are required.
+Within your Quart application's settings you can provide the following settings to control the behavior of Quart-Compress. None of the settings are required.
 
 | Option | Description | Default |
 | ------ | ----------- | ------- |
