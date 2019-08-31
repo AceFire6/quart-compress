@@ -1,4 +1,5 @@
 brotli
 pytest
 pytest-asyncio
+pytest-cov
 quart
