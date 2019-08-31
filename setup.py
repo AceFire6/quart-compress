@@ -17,9 +17,16 @@ setuptools.setup(
     zip_safe=False,
     include_package_data=True,
     platforms='any',
+    setup_requires=['pytest-runner'],
     install_requires=[
         'Quart==0.10.0',
         'Brotli==1.0.7'
+    ],
+    tests_require=[
+        'coveralls==1.8.2',
+        'pytest==5.1.2',
+        'pytest-asyncio==0.10.0',
+        'pytest-cov==2.7.1',
     ],
     test_suite='tests',
     classifiers=[
