@@ -1,8 +1,8 @@
 # Quart-Compress
 
 [![Version](https://img.shields.io/pypi/v/quart-compress.svg)](https://pypi.python.org/pypi/quart-compress)
-[![Build Status](https://travis-ci.org/AceFire6/quart-compress.png)](https://travis-ci.org/AceFire6/quart-compress)
-[![Coverage](https://coveralls.io/repos/AceFire6/quart-compress/badge.svg)](https://coveralls.io/github/AceFire6/quart-compress)
+[![Build Status](https://travis-ci.org/AceFire6/quart-compress.svg?branch=master)](https://travis-ci.org/AceFire6/quart-compress)
+[![Coverage Status](https://coveralls.io/repos/github/AceFire6/quart-compress/badge.svg?branch=master)](https://coveralls.io/github/AceFire6/quart-compress?branch=master)
 [![License](https://img.shields.io/pypi/l/quart-compress.svg)](https://github.com/AceFire6/quart-compress/blob/master/LICENSE.txt)
 
 Quart-Compress allows you to easily compress your [Quart](https://pgjones.gitlab.io/quart/) application's responses with gzip.
