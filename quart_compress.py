@@ -1,5 +1,5 @@
-# Authors: William Fagan
-# Copyright (c) 2013-2017 William Fagan
+# Authors: William Fagan, Jethro Muller
+# Copyright (c) 2013-2017 William Fagan, 2019 Jethro Muller
 # License: The MIT License (MIT)
 
 from gzip import GzipFile
@@ -63,11 +63,10 @@ class Compress:
         self.cache = backend() if backend else None
         self.cache_key = app.config['COMPRESS_CACHE_KEY']
 
-        if (app.config['COMPRESS_REGISTER'] and
-                app.config['COMPRESS_MIMETYPES']):
+        if app.config['COMPRESS_REGISTER'] and app.config['COMPRESS_MIMETYPES']:
             app.after_request(self.after_request)
 
-    def after_request(self, response):
+    async def after_request(self, response):
         app = self.app or current_app
         accept_encoding = request.headers.get('Accept-Encoding', '')
 
@@ -85,11 +84,13 @@ class Compress:
         if self.cache:
             key = self.cache_key(request)
             compressed_content = self.cache.get(key)
+
             if compressed_content is None:
-                compressed_content = self.compress(app, response)
+                compressed_content = await self.compress(app, response)
+
             self.cache.set(key, compressed_content)
         else:
-            compressed_content = self.compress(app, response)
+            compressed_content = await self.compress(app, response)
 
         response.set_data(compressed_content)
 
@@ -99,19 +100,21 @@ class Compress:
         vary = response.headers.get('Vary')
         if vary:
             if 'accept-encoding' not in vary.lower():
-                response.headers['Vary'] = '{}, Accept-Encoding'.format(vary)
+                response.headers['Vary'] = f'{vary}, Accept-Encoding'
         else:
             response.headers['Vary'] = 'Accept-Encoding'
 
         return response
 
-    def compress(self, app, response):
+    async def compress(self, app, response):
+        response_data = await response.get_data()
+
         if app.config['COMPRESS_ALGORITHM'] == 'gzip':
             gzip_buffer = BytesIO()
-            with GzipFile(mode='wb',
-                          compresslevel=app.config['COMPRESS_LEVEL'],
-                          fileobj=gzip_buffer) as gzip_file:
-                gzip_file.write(response.get_data())
+
+            with GzipFile(mode='wb', compresslevel=app.config['COMPRESS_LEVEL'], fileobj=gzip_buffer) as gzip_file:
+                gzip_file.write(response_data)
+
             return gzip_buffer.getvalue()
         elif app.config['COMPRESS_ALGORITHM'] == 'br':
-            return brotli.compress(response.get_data())
+            return brotli.compress(response_data)
