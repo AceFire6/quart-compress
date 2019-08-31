@@ -1,4 +1,5 @@
 brotli
+coveralls
 pytest
 pytest-asyncio
 pytest-cov
