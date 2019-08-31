@@ -8,7 +8,7 @@ from gzip import GzipFile
 from io import BytesIO
 
 import brotli
-from flask import request, current_app
+from quart import request, current_app
 
 
 if sys.version_info[:2] == (2, 6):
@@ -37,22 +37,22 @@ class DictCache(object):
 
 class Compress(object):
     """
-    The Compress object allows your application to use Flask-Compress.
+    The Compress object allows your application to use Quart-Compress.
 
     When initialising a Compress object you may optionally provide your
-    :class:`flask.Flask` application object if it is ready. Otherwise,
+    :class:`quart.Quart` application object if it is ready. Otherwise,
     you may provide it later by using the :meth:`init_app` method.
 
-    :param app: optional :class:`flask.Flask` application object
-    :type app: :class:`flask.Flask` or None
+    :param app: optional :class:`quart.Quart` application object
+    :type app: :class:`quart.Quart` or None
     """
     def __init__(self, app=None):
         """
-        An alternative way to pass your :class:`flask.Flask` application
-        object to Flask-Compress. :meth:`init_app` also takes care of some
+        An alternative way to pass your :class:`quart.Quart` application
+        object to Quart-Compress. :meth:`init_app` also takes care of some
         default `settings`_.
 
-        :param app: the :class:`flask.Flask` application object.
+        :param app: the :class:`quart.Quart` application object.
         """
         self.app = app
         if app is not None:
