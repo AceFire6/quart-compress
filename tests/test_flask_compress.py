@@ -65,12 +65,12 @@ class TestUrls:
         Compress(self.app)
 
         @self.app.route("/small/")
-        def small():
-            return render_template("small.html")
+        async def small():
+            return await render_template("small.html")
 
         @self.app.route("/large/")
-        def large():
-            return render_template("large.html")
+        async def large():
+            return await render_template("large.html")
 
     async def client_get(self, ufs):
         client = self.app.test_client()
